@@ -16,7 +16,12 @@ def main():
     print(df.describe())
 
     # Method 2 of reading data
-    
+    start = datetime.datetime(2012, 1, 1)
+    end = datetime.datetime(2017, 1, 1)
+
+    tesla = web.DataReader("TSLA", "yahoo", start, end)
+
+    print(tesla.head())
 
 
 
