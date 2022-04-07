@@ -1,5 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import pandas_datareader.data as web
+import datetime
+import numpy as np
+
+
 
 def main():
     # Let's first read in the data from spy
@@ -9,6 +14,10 @@ def main():
 
     # Let's look at some basic values of spy
     print(df.describe())
+
+    # Method 2 of reading data
+    
+
 
 
 
