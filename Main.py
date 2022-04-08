@@ -5,27 +5,24 @@ import datetime
 import numpy as np
 
 
-
 def main():
-    # Let's first read in the data from spy
-    df = pd.read_csv("SPY.csv")
-
-    print(df.head())
-
-    # Let's look at some basic values of spy
-    print(df.describe())
-
-    # Method 2 of reading data
+    # Select dates for stock exploration
     start = datetime.datetime(2012, 1, 1)
-    end = datetime.datetime(2017, 1, 1)
+    end = datetime.datetime(2022, 1, 1)
 
-    tesla = web.DataReader("TSLA", "yahoo", start, end)
+    spy = loadData(start, end, "SPY")
 
-    print(tesla.head())
+    # Examine the structure of this data
+    print(spy.info())
 
+    # Show the first few values
+    print(spy.head())
 
+    # Plot SPY's closing price
+    x = getAdjustedClosingPrice(spy)
 
-
+    plt.plot(x)
+    plt.show()
 
     # Ideas
     """
@@ -36,6 +33,19 @@ def main():
     
     """
 
+
+def loadData(start, end, stock):
+    return web.DataReader(stock, 'yahoo', start, end)
+
+
+def getAdjustedClosingPrice(stock, parameter='Adj Close'):
+    # Assert that the object passed is a data frame
+    assert isinstance(stock, pd.DataFrame), "Stock passed me be a data frame"
+
+    # Truncate the values we want
+    truncated_stock_values = stock.truncate()[parameter]
+
+    return truncated_stock_values
 
 
 if __name__ == "__main__":
