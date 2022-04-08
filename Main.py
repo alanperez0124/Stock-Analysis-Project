@@ -20,20 +20,26 @@ def main():
     # Plot SPY's closing price
     spy_adj_close_price = getParameter(spy)
 
-    plt.plot(spy_adj_close_price)
-    plt.show()
+    # plt.plot(spy_adj_close_price)
+    # plt.show()
 
     # Plot the total volume over time
     spy_volume = getParameter(spy, 'Volume')
 
-    plt.plot(spy_volume)
-    plt.title("Volume")
-    plt.show()
-
-
+    # plt.plot(spy_volume)
+    # plt.title("Volume")
+    # plt.show()
 
     # Task 1: Examine relationship between vix volatility index and spy
     runTask1(start, end, spy_volume)
+    """
+    Here we see an interesting result. First of all, our data is severely skewed with most of it being clustered in the 
+    bottom left-hand corner. This is indicative of something, but I can't quite remember. Regardless of that, we do 
+    a very feint positive linear relationship. We see that as the price of VIX increases (that is, as the stock market 
+    gets more volatile, the number of shares traded increases.
+    """
+
+    # Task 2:
 
 
 
@@ -43,7 +49,7 @@ def main():
     - We can use the VIX to track volatility index and see how that relates to stock price performance
     - We can track Treasury values and average mortgage inerest rates at Bankrate.com or HSN.com. 
     - We can create heatmap showing correlation between interest rates and stock price performance. 
-    - Plot the moving average (populat on trading view and such)
+    - Plot the moving average (popular on trading view and such)
     
     """
 
@@ -67,6 +73,7 @@ def runTask1(start, end, spy_volume):
     expectation of volatility based on the S&P 500 index options. In layman's terms, it is a fear index. """
     # Read in vix csv file
     # vix = pd.read_csv("VIX.csv")
+    spy = loadData(start, end, "SPY")
     vix = loadData(start, end, "^VIX")
 
     # Display info on vix
@@ -78,18 +85,31 @@ def runTask1(start, end, spy_volume):
     vix_adj_close_price = getParameter(vix)
 
     # Display the adjusted close price for vix
-    plt.title("Adjusted Close Price of VIX Over Past 5 Years")
-    plt.xlabel("Date")
-    plt.ylabel("Index Price (in dollars)")
-    plt.plot(vix_adj_close_price)
-    plt.show()
+    # plt.title("Adjusted Close Price of VIX Over Past 5 Years")
+    # plt.xlabel("Date")
+    # plt.ylabel("Index Price (in dollars)")
+    # plt.plot(vix_adj_close_price)
+    # plt.show()
 
     # Create scatter plot for spy volume vs vix
-    plt.title("SPY volume vs volatility")
-    plt.xlabel("Adjusted Close Price for Vix")
-    plt.ylabel("Volume of SPY Traded")
-    plt.scatter(vix_adj_close_price, spy_volume)
-    plt.show()
+    # plt.title("SPY volume vs volatility")
+    # plt.xlabel("Adjusted Close Price for Vix")
+    # plt.ylabel("Volume of SPY Traded")
+    # plt.scatter(vix_adj_close_price, spy_volume)
+    # plt.show()
+
+    # Concatenate the two columns to find correlation
+    print("\n First few values: ")
+
+    data = [spy['Adj Close'], vix['Volume']]
+
+    df = pd.concat(data)
+    df = df.reset_index()
+
+    df = df[['Date', 'Adj Close', 'Volume']]
+
+    print(df.head())
+
 
     # Now that we have a general idea of the relationship, we will create a heat map for this
 
