@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 plt.style.use('seaborn')
 import pandas_datareader.data as web
 import datetime
@@ -31,7 +32,7 @@ def main():
     # plt.show()
 
     # Task 1: Examine relationship between vix volatility index and spy
-    runTask1(start, end, spy_volume)
+    runTask1(start, end)
     """
     Here we see an interesting result. First of all, our data is severely skewed with most of it being clustered in the 
     bottom left-hand corner. This is indicative of something, but I can't quite remember. Regardless of that, we do 
@@ -68,7 +69,7 @@ def getParameter(stock, parameter='Adj Close'):
     return truncated_stock_values
 
 
-def runTask1(start, end, spy_volume):
+def runTask1(start, end):
     """This method will run task 1. The ^VIX (CBOE Volatility Index) is a popular measure of the stock market's
     expectation of volatility based on the S&P 500 index options. In layman's terms, it is a fear index. """
     # Read in vix csv file
@@ -76,10 +77,20 @@ def runTask1(start, end, spy_volume):
     spy = loadData(start, end, "SPY")
     vix = loadData(start, end, "^VIX")
 
+    # Create df for spy volume
+    spy_volume = spy['Volume']
+
+    # Create a Daily Return column in the spy df
+    # spy['Daily Return'] = spy['Adj Close'] - spy['Open']
+
     # Display info on vix
     print("Info on vix: \n")
     print(vix.info())
     print("First few values of vix: \n", vix.head())
+
+    # Create univariate distribution of observations
+    plt.hist(spy['Volume'])
+    plt.show()
 
     # Get adj close parameter for vix
     vix_adj_close_price = getParameter(vix)
@@ -98,17 +109,20 @@ def runTask1(start, end, spy_volume):
     # plt.scatter(vix_adj_close_price, spy_volume)
     # plt.show()
 
-    # Concatenate the two columns to find correlation
-    print("\n First few values: ")
 
-    data = [spy['Adj Close'], vix['Volume']]
-
-    df = pd.concat(data)
-    df = df.reset_index()
-
-    df = df[['Date', 'Adj Close', 'Volume']]
-
-    print(df.head())
+def task2():
+    # # Concatenate the two columns to find correlation
+    # print("\n First few values: ")
+    #
+    # data = [spy['Adj Close'], vix['Volume']]
+    #
+    # df = pd.concat(data)
+    # df = df.reset_index()
+    #
+    # df = df[['Date', 'Adj Close', 'Volume']]
+    #
+    # print(df.head())
+    return 2
 
 
     # Now that we have a general idea of the relationship, we will create a heat map for this
