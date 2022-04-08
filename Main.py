@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+plt.style.use('seaborn')
 import pandas_datareader.data as web
 import datetime
 import numpy as np
@@ -19,34 +20,22 @@ def main():
     # Plot SPY's closing price
     spy_adj_close_price = getParameter(spy)
 
-    # plt.plot(spy_adj_close_price)
-    # plt.show()
+    plt.plot(spy_adj_close_price)
+    plt.show()
 
     # Plot the total volume over time
     spy_volume = getParameter(spy, 'Volume')
 
-    # plt.plot(spy_volume)
-    # plt.title("Volume")
-    # plt.show()
+    plt.plot(spy_volume)
+    plt.title("Volume")
+    plt.show()
 
 
 
     # Task 1: Examine relationship between vix volatility index and spy
-    vix = loadData(start, end, "VIX")
-
-    print(vix.info())
-
-    vix_adj_close_price = getParameter(vix, 'Adj Close')
+    runTask1(start, end, spy_volume)
 
 
-    print("First few values of vix: \n", vix)
-
-
-    # vix_volume = getParameter(vix, 'Volume')
-
-    plt.title("SPY volume vs volatility")
-    plt.plot(spy_volume, vix_adj_close_price)
-    plt.show()
 
 
     # Ideas
@@ -72,6 +61,37 @@ def getParameter(stock, parameter='Adj Close'):
 
     return truncated_stock_values
 
+
+def runTask1(start, end, spy_volume):
+    """This method will run task 1. The ^VIX (CBOE Volatility Index) is a popular measure of the stock market's
+    expectation of volatility based on the S&P 500 index options. In layman's terms, it is a fear index. """
+    # Read in vix csv file
+    # vix = pd.read_csv("VIX.csv")
+    vix = loadData(start, end, "^VIX")
+
+    # Display info on vix
+    print("Info on vix: \n")
+    print(vix.info())
+    print("First few values of vix: \n", vix.head())
+
+    # Get adj close parameter for vix
+    vix_adj_close_price = getParameter(vix)
+
+    # Display the adjusted close price for vix
+    plt.title("Adjusted Close Price of VIX Over Past 5 Years")
+    plt.xlabel("Date")
+    plt.ylabel("Index Price (in dollars)")
+    plt.plot(vix_adj_close_price)
+    plt.show()
+
+    # Create scatter plot for spy volume vs vix
+    plt.title("SPY volume vs volatility")
+    plt.xlabel("Adjusted Close Price for Vix")
+    plt.ylabel("Volume of SPY Traded")
+    plt.scatter(vix_adj_close_price, spy_volume)
+    plt.show()
+
+    # Now that we have a general idea of the relationship, we will create a heat map for this
 
 if __name__ == "__main__":
     main()
