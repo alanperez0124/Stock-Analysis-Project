@@ -15,24 +15,25 @@ def main():
     spy = loadData(start, end, "SPY")
 
     # Examine the structure of this data as well as the first few values
-    print("Some info on the parameters: \n", spy.info())
-    print("\nThe first few values of spy: \n", spy.head())
+    # print("Some info on the parameters: \n", spy.info())
+    # print("\nThe first few values of spy: \n", spy.head())
+
 
     # Plot SPY's closing price
-    spy_adj_close_price = getParameter(spy)
+    # spy_adj_close_price = getParameter(spy) ############
 
     # plt.plot(spy_adj_close_price)
     # plt.show()
 
     # Plot the total volume over time
-    spy_volume = getParameter(spy, 'Volume')
+    # spy_volume = getParameter(spy, 'Volume')# ######################
 
     # plt.plot(spy_volume)
     # plt.title("Volume")
     # plt.show()
 
     # Task 1: Examine relationship between vix volatility index and spy
-    runTask1(start, end)
+    runTask2(start, end)
     """
     Here we see an interesting result. First of all, our data is severely skewed with most of it being clustered in the 
     bottom left-hand corner. This is indicative of something, but I can't quite remember. Regardless of that, we do 
@@ -58,6 +59,9 @@ def main():
 def loadData(start, end, stock):
     return web.DataReader(stock, 'yahoo', start, end)
 
+def infoSeparator():
+    print("-" * 40)
+
 
 def getParameter(stock, parameter='Adj Close'):
     # Assert that the object passed is a data frame
@@ -69,38 +73,53 @@ def getParameter(stock, parameter='Adj Close'):
     return truncated_stock_values
 
 
-def runTask1(start, end):
+def runTask2(start, end):
     """This method will run task 1. The ^VIX (CBOE Volatility Index) is a popular measure of the stock market's
     expectation of volatility based on the S&P 500 index options. In layman's terms, it is a fear index. """
-    # Read in vix csv file
-    # vix = pd.read_csv("VIX.csv")
+    infoSeparator()
+    print("Starting task 2: ")
+
+    # Read in vix and spy using pd data reader
     spy = loadData(start, end, "SPY")
     vix = loadData(start, end, "^VIX")
-
-    # Create df for spy volume
-    spy_volume = spy['Volume']
-
-    # Create a Daily Return column in the spy df
-    # spy['Daily Return'] = spy['Adj Close'] - spy['Open']
 
     # Display info on vix
     print("Info on vix: \n")
     print(vix.info())
-    print("First few values of vix: \n", vix.head())
+    # print("First few values of vix: \n", vix.head())
 
-    # Create univariate distribution of observations
-    plt.hist(spy['Volume'])
+    # Create data frame for Close parameter of vix
+    vix_adjclose_df = getParameter(vix, 'Adj Close')
+
+    # Plot adjusted close price data
+    plt.title("Adjusted close price of VIX Over Past 5 Years")
+    plt.xlabel("Date")
+    plt.ylabel("Index Price (in Dollars)")
+    plt.plot(vix_adjclose_df)
     plt.show()
 
-    # Get adj close parameter for vix
-    vix_adj_close_price = getParameter(vix)
+    """The VIX is a measure of implied volatility, based on the prices of a basket of S&P 500 Index options with 30 days
+    to expiration. By zooming into the graph, we see a huge spike around April of 2020. As many of you can guess or 
+    even remember, that was around the time the United States went awol: people were buying all the toilet paper they 
+    could find and the market was doing back-flips. blah blah blah. """
 
-    # Display the adjusted close price for vix
-    # plt.title("Adjusted Close Price of VIX Over Past 5 Years")
-    # plt.xlabel("Date")
-    # plt.ylabel("Index Price (in dollars)")
-    # plt.plot(vix_adj_close_price)
-    # plt.show()
+    infoSeparator()
+
+    # Explore the relationship between VIX and SPY
+    correlations = vix.corr()
+
+    sns.heatmap(correlations, annot=True, fmt='.1f', cmap='Greens')
+    plt.show()
+
+
+    
+
+
+
+
+   # Create a Daily Return column in the spy df
+    # spy['Daily Return'] = spy['Adj Close'] - spy['Open']
+
 
     # Create scatter plot for spy volume vs vix
     # plt.title("SPY volume vs volatility")
@@ -109,23 +128,6 @@ def runTask1(start, end):
     # plt.scatter(vix_adj_close_price, spy_volume)
     # plt.show()
 
-
-def task2():
-    # # Concatenate the two columns to find correlation
-    # print("\n First few values: ")
-    #
-    # data = [spy['Adj Close'], vix['Volume']]
-    #
-    # df = pd.concat(data)
-    # df = df.reset_index()
-    #
-    # df = df[['Date', 'Adj Close', 'Volume']]
-    #
-    # print(df.head())
-    return 2
-
-
-    # Now that we have a general idea of the relationship, we will create a heat map for this
 
 if __name__ == "__main__":
     main()

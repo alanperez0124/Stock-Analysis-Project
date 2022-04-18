@@ -1,0 +1,18 @@
+### Task 1: Introduction to SPY
+
+- Do some basic exploratory data analysis on SPY
+- Create some basic plots about: The adjusted close price over time, the volume over time, etc.
+- Maybe a histogram of daily return and what it means
+- You can try to plot moving averages (i’m pretty sure pandas has something that can help, but I dont know if the professor would be cool with it)
+
+### Task 2: The relationship between SPY and outside factors
+
+- Basic exploratory analysis on VIX
+- Will use the ^VIX and explore its relationship to SPY.
+- Likely use some kind of heat map for the relationship between different variables such as volume and stock price
+- Explore another relationship that SPY might have. For example, the treasury values and average mortgage interest rates (can find them at [Bankrate.com](http://Bankrate.com) or [HSN.com](http://HSN.com) I believe)
+
+### Task 3: How SPY moves and why
+
+- Since SPY is composed of several companies, you can see explore the relationship between those stocks and the movement of SPY. For example, from the website [SPY Holdings | SPDR® S&P 500 ETF Trust (ycharts.com)](https://ycharts.com/companies/SPY/holdings), we see that Apple comprises 6.93% of the weight. So, we would expect to see some strong correlation between apple and SPY.
+- Anything else you can think of
