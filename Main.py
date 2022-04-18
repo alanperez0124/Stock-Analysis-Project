@@ -86,6 +86,8 @@ def runTask2(start, end):
     # Display info on vix
     print("Info on vix: \n")
     print(vix.info())
+    print("Info on spy: \n")
+    print(spy.info())
     # print("First few values of vix: \n", vix.head())
 
     # Create data frame for Close parameter of vix
@@ -106,15 +108,14 @@ def runTask2(start, end):
     infoSeparator()
 
     # Explore the relationship between VIX and SPY
-    correlations = vix.corr()
+    data = [ vix['Adj Close'], spy['Adj Close'], spy['Volume']]
+    headers = ["VIX Adj Close", "SPY Adj Close", "SPY Volume"]
 
-    sns.heatmap(correlations, annot=True, fmt='.1f', cmap='Greens')
+    new_data_frame = pd.concat(data, axis=1, keys=headers)
+
+    print(new_data_frame.corr())
+    sns.heatmap(new_data_frame.corr(), annot=True, fmt='.1f', cmap='Greens')
     plt.show()
-
-
-    
-
-
 
 
    # Create a Daily Return column in the spy df
