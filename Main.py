@@ -77,8 +77,23 @@ def test():
     spy = loadData(start, end, "SPY")
     vix = loadData(start, end, "^VIX")
 
-    plt.plot(spy['Adj Close'])
-    plt.plot(vix['Adj Close'])
+    # plt.plot(spy['Adj Close'], label="SPY Adj. Close")
+    # plt.plot(vix['Adj Close'], label="VIX Adj. Close")
+    # plt.legend(loc="best", shadow=True)
+    # plt.show()
+
+    print(spy.head())
+
+    df2 = spy.apply(lambda x : x / x[0])
+    df3 = vix.apply(lambda x : x / x[0])
+
+    print(df2.head())
+
+
+    # plt.plot(df2['Adj Close'])
+    plt.plot(df2['Adj Close'], label="spy")
+    plt.plot(df3['Adj Close'], label="vix")
+    plt.legend()
     plt.show()
 
 
