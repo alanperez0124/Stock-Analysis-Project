@@ -82,7 +82,7 @@ def runTask2():
     max1 = max(vix['Adj Close'])
     vix_adj = vix['Adj Close']
     plt.plot(vix_adj.idxmax(), max1, 'ro', label="Max Value")
-    plt.title("Adjusted close price of VIX Over Past 5 Years")
+    plt.title("Adjusted Close Price of VIX")
     plt.xlabel("Date")
     plt.ylabel("Index Price (in Dollars)")
     plt.plot(vix['Adj Close'], 'green', label="Vix")
@@ -98,6 +98,30 @@ def runTask2():
     """
 
     infoSeparator()
+
+    # Plot the adjusted close price of both SPY and VIX
+    fig = plt.figure()
+    plt.plot(vix['Adj Close'], 'r', label="VIX")
+    plt.plot(spy['Adj Close'], 'g', label="SPY")
+    plt.title("Adjusted Close Price of VIX and SPY ")
+    plt.xlabel("Date")
+    plt.ylabel("Price (in Dollars)")
+    plt.legend()
+    plt.show()
+
+    infoSeparator()
+
+    # Plot the normalized adjusted close price of spy and vix
+    fig = plt.figure()
+    vix_normalized = vix.apply(lambda x : x / x[0])
+    spy_normalized = spy.apply(lambda x : x / x[0])
+    plt.plot(vix_normalized['Adj Close'], 'r', label="VIX")
+    plt.plot(spy_normalized['Adj Close'], 'g', label="SPY")
+    plt.title("Normalized Adjusted Close Price of VIX and SPY")
+    plt.xlabel("Date")
+    plt.ylabel("Normalized Price")
+    plt.legend()
+    plt.show()
 
     # Calculate the correlation between daily return of vix and daily return of spy
     # Create new Daily Return columns in vix and spy df's

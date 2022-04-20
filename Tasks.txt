@@ -8,12 +8,12 @@
 ### Task 2: The relationship between SPY and outside factors
 
 - Basic exploratory analysis on VIX
-	[] Plot the adjusted price movement over the years.
-	[] Segway into the idea that they often move in opposite directions
+	[x] Plot the adjusted price movement over the years.
+	[x] Segway into the idea that they often move in opposite directions
 
 - Will use the ^VIX and explore its relationship to SPY.
-	[] Plot correlation heatmap between SPY and ^VIX daily return (should see negative 	    	    		    correlation)
 	[] Plot the normalized Adjusted Close Price of SPY and ^VIX (Expect to see them move in 	    	      	    opposite directions)
+	[] Plot correlation heatmap between SPY and ^VIX daily return (should see negative 	    	    		    correlation)
 	[] Check to see if there is any relationship between volume of SPY and VIX adj close (this 
 	    could be done by plotting the Volume of SPY vs VIX adj close OR by checking the 	    		    correlation heatmap)
 
