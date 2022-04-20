@@ -12,28 +12,10 @@ def main():
     start = datetime.datetime(2017, 1, 1)
     end = datetime.datetime(2022, 1, 1)
 
-    test()
-
-    # Examine the structure of this data as well as the first few values
-    # print("Some info on the parameters: \n", spy.info())
-    # print("\nThe first few values of spy: \n", spy.head())
-
-
-    # Plot SPY's closing price
-    # spy_adj_close_price = getParameter(spy) ############
-
-    # plt.plot(spy_adj_close_price)
-    # plt.show()
-
-    # Plot the total volume over time
-    # spy_volume = getParameter(spy, 'Volume')# ######################
-
-    # plt.plot(spy_volume)
-    # plt.title("Volume")
-    # plt.show()
+    # test()
 
     # Task 1: Examine relationship between vix volatility index and spy
-    # runTask2()
+    runTask2()
     """
     Here we see an interesting result. First of all, our data is severely skewed with most of it being clustered in the 
     bottom left-hand corner. This is indicative of something, but I can't quite remember. Regardless of that, we do 
@@ -71,41 +53,16 @@ def getParameter(stock, parameter='Adj Close'):
 
 
 def test():
-    start = datetime.datetime(2017, 1, 1)
-    end = datetime.datetime(2022, 1, 1)
-
-    spy = loadData(start, end, "SPY")
-    vix = loadData(start, end, "^VIX")
-
-    # plt.plot(spy['Adj Close'], label="SPY Adj. Close")
-    # plt.plot(vix['Adj Close'], label="VIX Adj. Close")
-    # plt.legend(loc="best", shadow=True)
-    # plt.show()
-
-    print(spy.head())
-
-    df2 = spy.apply(lambda x : x / x[0])
-    df3 = vix.apply(lambda x : x / x[0])
-
-    print(df2.head())
-
-
-    # plt.plot(df2['Adj Close'])
-    plt.plot(df2['Adj Close'], label="spy")
-    plt.plot(df3['Adj Close'], label="vix")
-    plt.legend()
-    plt.show()
-
-
-
-
+    a = [10, 12, 53, 756, 23]
+    max_a = max(a)
+    print(f'Max index is: {a.index(max_a)}')
 
 
 def runTask2():
     """This method will run task 1. The ^VIX (CBOE Volatility Index) is a popular measure of the stock market's
     expectation of volatility based on the S&P 500 index options. In layman's terms, it is a fear index. """
     infoSeparator()
-    start = datetime.datetime(2017, 1, 1)
+    start = datetime.datetime(2000, 1, 1)
     end = datetime.datetime(2022, 1, 1)
     print("Starting task 2: ")
 
@@ -120,27 +77,25 @@ def runTask2():
     # print(spy.info())
     infoSeparator()
 
-    # Display info on vix
-    # print("First few values of vix: \n", vix.head())
+    # Plot graph of adjusted close price
+    fig = plt.figure()
+    max1 = max(vix['Adj Close'])
+    vix_adj = vix['Adj Close']
+    plt.plot(vix_adj.idxmax(), max1, 'ro', label="Max Value")
+    plt.title("Adjusted close price of VIX Over Past 5 Years")
+    plt.xlabel("Date")
+    plt.ylabel("Index Price (in Dollars)")
+    plt.plot(vix['Adj Close'], 'green', label="Vix")
+    plt.legend()
+    plt.show()
 
-    infoSeparator()
-
-    # Plot graph of vix and spy
-
-
-
-
-    # Plot adjusted close price data
-    # plt.title("Adjusted close price of VIX Over Past 5 Years")
-    # plt.xlabel("Date")
-    # plt.ylabel("Index Price (in Dollars)")
-    # plt.plot(vix_adjclose_df)
-    # plt.show()
-
-    """The VIX is a measure of implied volatility, based on the prices of a basket of S&P 500 Index options with 30 days
+    """
+    The VIX is a measure of implied volatility, based on the prices of a basket of S&P 500 Index options with 30 days
     to expiration. By zooming into the graph, we see a huge spike around April of 2020. As many of you can guess or 
     even remember, that was around the time the United States went awol: people were buying all the toilet paper they 
-    could find and the market was doing back-flips. blah blah blah. """
+    could find and the market was doing back-flips. Though, interestingly, we see that what happened at the beginning of 
+    2020 shies in comparison to what happened in 2008 during the Great Recession.
+    """
 
     infoSeparator()
 
