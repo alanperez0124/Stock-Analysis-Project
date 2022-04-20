@@ -8,9 +8,19 @@
 ### Task 2: The relationship between SPY and outside factors
 
 - Basic exploratory analysis on VIX
+	o Plot the adjusted price movement over the years. 
+	o Segway into the idea that they often move in opposite directions
+
 - Will use the ^VIX and explore its relationship to SPY.
-- Likely use some kind of heat map for the relationship between different variables such as volume and stock price
-- Explore another relationship that SPY might have. For example, the treasury values and average mortgage interest rates (can find them at [Bankrate.com](http://Bankrate.com) or [HSN.com](http://HSN.com) I believe)
+	o Plot correlation heatmap between SPY and ^VIX daily return (should see negative 	    	    correlation)
+	o Plot the normalized Adjusted Close Price of SPY and ^VIX (Expect to see them move in 	    	    opposite directions)
+	o Check to see if there is any relationship between volume of SPY and VIX adj close (this 
+	    could be done by plotting the Volume of SPY vs VIX adj close OR by checking the 	    correlation heatmap)
+
+- Check to see if SPY Adj Close is related to anything else: 
+	o Treasury values
+	o Average mortgage interest rates Bankrate.com or HSN.com
+
 
 ### Task 3: How SPY moves and why
 
