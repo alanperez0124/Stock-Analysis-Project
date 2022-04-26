@@ -142,19 +142,20 @@ def runTask2():
 
     infoSeparator()
 
-    data = [ vix['Adj Close'], spy['Adj Close'], spy['Volume']]
-    headers = ["VIX Adj Close", "SPY Adj Close", "SPY Volume"]
+    data = [ vix['Adj Close'], spy['Volume']]
+    headers = ["VIX Adj Close", "SPY Volume"]
 
     new_data_frame = pd.concat(data, axis=1, keys=headers)
     new_data_frame = new_data_frame.reset_index()
     print(new_data_frame)
 
-    # print(new_data_frame.corr())
-    # sns.heatmap(new_data_frame.corr(), annot=True, fmt='.1f', cmap='Greens')
-    # plt.show()
+    print(new_data_frame.corr())
+    sns.heatmap(new_data_frame.corr(), annot=True, fmt='.1f', cmap='Greens')
+    plt.title('VIX Adjusted Close vs SPY Volume')
+    plt.show()
 
     """Here we find some interesting results in our search for relationships between VIX and SPY. 
-       - The VIX adjusted close value is strongly correlated to the SPY Volume. This makes sense because as the market 
+       - The VIX adjusted close value is moderately correlated to the SPY Volume. This makes sense because as the market 
            gets more volatile, more people jump and start buying OPTIONS.  
        - The 
        - 
