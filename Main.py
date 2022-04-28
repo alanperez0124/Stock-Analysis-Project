@@ -16,10 +16,10 @@ def main():
     start = datetime.datetime(2017, 1, 1)
     end = datetime.datetime(2022, 1, 1)
 
-    mortgageInterestRates()
+    # mortgageInterestRates()
     # test()
     # Task 1: Examine relationship between vix volatility index and spy
-    # runTask2()
+    runTask2()
     """
     Here we see an interesting result. First of all, our data is severely skewed with most of it being clustered in the 
     bottom left-hand corner. This is indicative of something, but I can't quite remember. Regardless of that, we do 
@@ -222,16 +222,15 @@ def mortgageInterestRates():
     # Plot the mortgages
     plt.plot(dates_15, spy15['MORTGAGE15US'][436: ], 'g-', label="15")
     plt.plot(dates_30, spy30_df['MORTGAGE30US'][3:], 'b-', label="30")
-
-    start = datetime.datetime(2000, 1, 1)
-    end = datetime.datetime(2022, 1, 1)
-    print("Starting task 2: ")
-
-    # Read in vix and spy using pd data reader
-    spy = loadData(start, end, "SPY")
-
     plt.legend()
     plt.show()
+
+    print("""
+    What we are witnessing is stagflation. Typically, when the country and economy are doing well, stocks tend to soar 
+    and so do mortgage rates. Even though these two charts together indicate that we are doing well, we must always 
+    consider other things likes unemployment and war and disease. 
+    """)
+
 
 
 
