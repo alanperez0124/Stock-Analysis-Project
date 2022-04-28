@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+
 plt.style.use('seaborn')
 import pandas_datareader.data as web
 import datetime
@@ -12,17 +13,16 @@ def main():
     start = datetime.datetime(2017, 1, 1)
     end = datetime.datetime(2022, 1, 1)
 
-    # test()
+    test()
 
     # Task 1: Examine relationship between vix volatility index and spy
-    runTask2()
+    # runTask2()
     """
     Here we see an interesting result. First of all, our data is severely skewed with most of it being clustered in the 
     bottom left-hand corner. This is indicative of something, but I can't quite remember. Regardless of that, we do 
     a very feint positive linear relationship. We see that as the price of VIX increases (that is, as the stock market 
     gets more volatile, the number of shares traded increases.
     """
-
 
     # Ideas
     """
@@ -53,9 +53,47 @@ def getParameter(stock, parameter='Adj Close'):
 
 
 def test():
-    a = [10, 12, 53, 756, 23]
-    max_a = max(a)
-    print(f'Max index is: {a.index(max_a)}')
+    spy15 = pd.read_csv("MORTGAGE15US.csv")
+    spy30_df = pd.read_csv("MORTGAGE30US.csv")
+
+    # Find the date 2000-01-01 or earliest date in 2000
+    dates_15 = spy15["DATE"][436:]
+    dates_30 = spy30_df["DATE"][3:]
+    # dates_30 = spy30["DATE"][595:607]
+    print(dates_30[605])
+    print(spy30_df['MORTGAGE30US'][605])
+    spy30_df.at[606, "DATE"] = "2011-07-21"
+    spy30_df.at[606, "MORTGAGE30US"] = 4.52
+
+    # print(dates_30[606])
+    # print(spy30['MORTGAGE30US'][606])
+
+    plt.plot(dates_15, spy15['MORTGAGE15US'][436: ], 'r-', label="15")
+    plt.plot(dates_30, spy30_df['MORTGAGE30US'][3: ], 'b-', label="30")
+    plt.plot([dates_30[606]], [spy30_df['MORTGAGE30US'][606]], "ko")
+    # plt.plot(dates_30, spy30['MORTGAGE30US'][595:607], 'b-', label="30")
+    plt.legend()
+    plt.show()
+
+    # plt.legend()
+    # plt.show()
+    #
+    # plt.plot(spy30['DATE'], spy30['MORTGAGE30US'], 'b-', label="30")
+    # plt.legend()
+    # plt.show()
+
+    print(len(spy30_df['DATE']))
+    print(len(spy30_df['MORTGAGE30US']))
+
+    # plt.title("Historical Mortgagae Rate Averages ")
+    # plt.plot(spy15['DATE'], spy15['MORTGAGE15US'], 'r.', label='15-year fixed')
+    # plt.plot(spy30['DATE'], spy30['MORTGAGE30US'], 'b.', label='30-year fixed')
+    # # plt.xlabel("January 2000 to January 2022")
+    # plt.ylabel("Interest Rates")
+    # plt.legend()
+    # plt.show()
+
+    print(spy15.info())
 
 
 def runTask2():
@@ -113,8 +151,8 @@ def runTask2():
 
     # Plot the normalized adjusted close price of spy and vix
     fig = plt.figure()
-    vix_normalized = vix.apply(lambda x : x / x[0])
-    spy_normalized = spy.apply(lambda x : x / x[0])
+    vix_normalized = vix.apply(lambda x: x / x[0])
+    spy_normalized = spy.apply(lambda x: x / x[0])
     plt.plot(vix_normalized['Adj Close'], 'r', label="VIX")
     plt.plot(spy_normalized['Adj Close'], 'g', label="SPY")
     plt.title("Normalized Adjusted Close Price of VIX and SPY")
@@ -142,7 +180,7 @@ def runTask2():
 
     infoSeparator()
 
-    data = [ vix['Adj Close'], spy['Volume']]
+    data = [vix['Adj Close'], spy['Volume']]
     headers = ["VIX Adj Close", "SPY Volume"]
 
     new_data_frame = pd.concat(data, axis=1, keys=headers)
@@ -162,18 +200,41 @@ def runTask2():
        -   
     """
 
+    # Compare SPY Adj Close to average mortgage interest rates
+    mortgageInterestRates()
+
     # Calculate daily percentage moves of VIX index
 
-   # Create a Daily Return column in the spy df
-    # spy['Daily Return'] = spy['Adj Close'] - spy['Open']
+# Create a Daily Return column in the spy df
+# spy['Daily Return'] = spy['Adj Close'] - spy['Open']
+
+# Create scatter plot for spy volume vs vix
+# plt.title("SPY volume vs volatility")
+# plt.xlabel("Adjusted Close Price for Vix")
+# plt.ylabel("Volume of SPY Traded")
+# plt.scatter(vix_adj_close_price, spy_volume)
+# plt.show()
 
 
-    # Create scatter plot for spy volume vs vix
-    # plt.title("SPY volume vs volatility")
-    # plt.xlabel("Adjusted Close Price for Vix")
-    # plt.ylabel("Volume of SPY Traded")
-    # plt.scatter(vix_adj_close_price, spy_volume)
-    # plt.show()
+def mortgageInterestRates():
+    # Read in data
+    spy15 = pd.read_csv("MORTGAGE15US.csv")
+    spy30_df = pd.read_csv("MORTGAGE30US.csv")
+
+    # Set the start dates to 2000-01-07 (YEAR-MM-DD)
+    dates_15 = spy15["DATE"][436:]
+    dates_30 = spy30_df["DATE"][3:]
+
+    # Plot the spy_30 before the fix
+    plt.plot(dates_30, spy30_df['MORTGAGE30US'][3: ], 'r-', label="30 - Before Fix")
+
+    # Plot the mortgages
+    plt.plot(dates_15, spy15['MORTGAGE15US'][436: ], 'g-', label="15")
+    plt.plot(dates_30, spy30_df['MORTGAGE30US'][3: ], 'b-', label="30")
+    plt.plot([dates_30[606]], [spy30_df['MORTGAGE30US'][606]], "ko")
+    plt.legend()
+    plt.show()
+
 
 
 if __name__ == "__main__":
