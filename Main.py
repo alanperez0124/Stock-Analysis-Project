@@ -1,8 +1,11 @@
+import time
+
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import seaborn as sns
 
-plt.style.use('seaborn')
+# plt.style.use('seaborn')
 import pandas_datareader.data as web
 import datetime
 import numpy as np
@@ -13,8 +16,8 @@ def main():
     start = datetime.datetime(2017, 1, 1)
     end = datetime.datetime(2022, 1, 1)
 
-    test()
-
+    mortgageInterestRates()
+    # test()
     # Task 1: Examine relationship between vix volatility index and spy
     # runTask2()
     """
@@ -53,47 +56,13 @@ def getParameter(stock, parameter='Adj Close'):
 
 
 def test():
-    spy15 = pd.read_csv("MORTGAGE15US.csv")
-    spy30_df = pd.read_csv("MORTGAGE30US.csv")
-
-    # Find the date 2000-01-01 or earliest date in 2000
-    dates_15 = spy15["DATE"][436:]
-    dates_30 = spy30_df["DATE"][3:]
-    # dates_30 = spy30["DATE"][595:607]
-    print(dates_30[605])
-    print(spy30_df['MORTGAGE30US'][605])
-    spy30_df.at[606, "DATE"] = "2011-07-21"
-    spy30_df.at[606, "MORTGAGE30US"] = 4.52
-
-    # print(dates_30[606])
-    # print(spy30['MORTGAGE30US'][606])
-
-    plt.plot(dates_15, spy15['MORTGAGE15US'][436: ], 'r-', label="15")
-    plt.plot(dates_30, spy30_df['MORTGAGE30US'][3: ], 'b-', label="30")
-    plt.plot([dates_30[606]], [spy30_df['MORTGAGE30US'][606]], "ko")
-    # plt.plot(dates_30, spy30['MORTGAGE30US'][595:607], 'b-', label="30")
-    plt.legend()
-    plt.show()
-
-    # plt.legend()
-    # plt.show()
-    #
-    # plt.plot(spy30['DATE'], spy30['MORTGAGE30US'], 'b-', label="30")
-    # plt.legend()
-    # plt.show()
-
-    print(len(spy30_df['DATE']))
-    print(len(spy30_df['MORTGAGE30US']))
-
-    # plt.title("Historical Mortgagae Rate Averages ")
-    # plt.plot(spy15['DATE'], spy15['MORTGAGE15US'], 'r.', label='15-year fixed')
-    # plt.plot(spy30['DATE'], spy30['MORTGAGE30US'], 'b.', label='30-year fixed')
-    # # plt.xlabel("January 2000 to January 2022")
-    # plt.ylabel("Interest Rates")
-    # plt.legend()
-    # plt.show()
-
-    print(spy15.info())
+    prev = 1111
+    a = ["1111alan", "1112aldo", "1111aram", "1114adriel"]
+    for i, name in enumerate(a):
+        current = int(name[0:4])
+        if current >= int(prev):
+            prev = current
+            print(prev)
 
 
 def runTask2():
@@ -225,13 +194,42 @@ def mortgageInterestRates():
     dates_15 = spy15["DATE"][436:]
     dates_30 = spy30_df["DATE"][3:]
 
-    # Plot the spy_30 before the fix
-    plt.plot(dates_30, spy30_df['MORTGAGE30US'][3: ], 'r-', label="30 - Before Fix")
+    # Before the fix
+    fig, ax = plt.subplots()
+    # plt.plot(dates_30, spy30_df['MORTGAGE30US'][3: ], 'k-', label="30 - before fix")
+
+    # Fix Data frame
+    spy30_df.at[606, "DATE"] = "2011-07-21"
+    spy30_df.at[606, "MORTGAGE30US"] = 4.55
+
+    # Fix the x-axis
+    dates_30.reset_index(drop=True, inplace=True)  # Reset the index of the data frame
+    dates_15.reset_index(drop=True, inplace=True)
+    print(dates_30.iloc[0])
+
+    ticks_to_use_indices = dates_15.index[::50]
+    ticks_to_use = dates_15.iloc[::50].tolist()
+    ticks_to_use_datetime_objects = []
+    for date in ticks_to_use:
+        ticks_to_use_datetime_objects.append(datetime.datetime.strptime(date, "%Y-%m-%d"))
+
+    labels = [ i.strftime("%m/%d/%Y") for i in ticks_to_use_datetime_objects ]
+
+    ax.set_xticks(ticks_to_use_indices)
+    ax.set_xticklabels(labels)
+    plt.xticks(rotation=45)
 
     # Plot the mortgages
     plt.plot(dates_15, spy15['MORTGAGE15US'][436: ], 'g-', label="15")
-    plt.plot(dates_30, spy30_df['MORTGAGE30US'][3: ], 'b-', label="30")
-    plt.plot([dates_30[606]], [spy30_df['MORTGAGE30US'][606]], "ko")
+    plt.plot(dates_30, spy30_df['MORTGAGE30US'][3:], 'b-', label="30")
+
+    start = datetime.datetime(2000, 1, 1)
+    end = datetime.datetime(2022, 1, 1)
+    print("Starting task 2: ")
+
+    # Read in vix and spy using pd data reader
+    spy = loadData(start, end, "SPY")
+
     plt.legend()
     plt.show()
 
