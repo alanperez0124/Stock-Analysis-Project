@@ -16,10 +16,10 @@ def main():
     start = datetime.datetime(2017, 1, 1)
     end = datetime.datetime(2022, 1, 1)
 
-    # mortgageInterestRates()
+    mortgageInterestRates()
     # test()
     # Task 1: Examine relationship between vix volatility index and spy
-    runTask2()
+    # runTask2()
     """
     Here we see an interesting result. First of all, our data is severely skewed with most of it being clustered in the 
     bottom left-hand corner. This is indicative of something, but I can't quite remember. Regardless of that, we do 
@@ -120,10 +120,10 @@ def runTask2():
 
     # Plot the normalized adjusted close price of spy and vix
     fig = plt.figure()
-    vix_normalized = vix.apply(lambda x: x / x[0])
-    spy_normalized = spy.apply(lambda x: x / x[0])
-    plt.plot(vix_normalized['Adj Close'], 'r', label="VIX")
-    plt.plot(spy_normalized['Adj Close'], 'g', label="SPY")
+    vix_scaled = vix.apply(lambda x: x / x[0])
+    spy_scaled = spy.apply(lambda x: x / x[0])
+    plt.plot(vix_scaled['Adj Close'], 'r', label="VIX")
+    plt.plot(spy_scaled['Adj Close'], 'g', label="SPY")
     plt.title("Normalized Adjusted Close Price of VIX and SPY")
     plt.xlabel("Date")
     plt.ylabel("Normalized Price")
@@ -172,18 +172,6 @@ def runTask2():
     # Compare SPY Adj Close to average mortgage interest rates
     mortgageInterestRates()
 
-    # Calculate daily percentage moves of VIX index
-
-# Create a Daily Return column in the spy df
-# spy['Daily Return'] = spy['Adj Close'] - spy['Open']
-
-# Create scatter plot for spy volume vs vix
-# plt.title("SPY volume vs volatility")
-# plt.xlabel("Adjusted Close Price for Vix")
-# plt.ylabel("Volume of SPY Traded")
-# plt.scatter(vix_adj_close_price, spy_volume)
-# plt.show()
-
 
 def mortgageInterestRates():
     # Read in data
@@ -195,7 +183,7 @@ def mortgageInterestRates():
     dates_30 = spy30_df["DATE"][3:]
 
     # Before the fix
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(11, 10))
     # plt.plot(dates_30, spy30_df['MORTGAGE30US'][3: ], 'k-', label="30 - before fix")
 
     # Fix Data frame
@@ -222,6 +210,9 @@ def mortgageInterestRates():
     # Plot the mortgages
     plt.plot(dates_15, spy15['MORTGAGE15US'][436: ], 'g-', label="15")
     plt.plot(dates_30, spy30_df['MORTGAGE30US'][3:], 'b-', label="30")
+    plt.xlabel("Date")
+    plt.ylabel("Percent")
+    plt.title("15- & 30-Year Fixed Rate Mortgage Average From 2000 to 2022")
     plt.legend()
     plt.show()
 

@@ -19,7 +19,7 @@
 
 - Check to see if SPY Adj Close is related to anything else: 
 	[] Treasury values
-	[] Average mortgage interest rates Bankrate.com or HSN.com
+	[x] Average mortgage interest rates Bankrate.com or HSN.com
 
 
 ### Task 3: How SPY moves and why
