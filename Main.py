@@ -214,7 +214,7 @@ def mortgageInterestRates():
 
     ax.set_xticks(ticks_to_use_indices)
     ax.set_xticklabels(labels)
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=90)
 
     # Plot the mortgages
     plt.plot(dates_15, spy15['MORTGAGE15US'][436: ], 'g-', label="15")
