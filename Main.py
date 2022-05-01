@@ -16,10 +16,10 @@ def main():
     start = datetime.datetime(2017, 1, 1)
     end = datetime.datetime(2022, 1, 1)
 
-    mortgageInterestRates()
+
     # test()
     # Task 1: Examine relationship between vix volatility index and spy
-    # runTask2()
+    runTask2()
     """
     Here we see an interesting result. First of all, our data is severely skewed with most of it being clustered in the 
     bottom left-hand corner. This is indicative of something, but I can't quite remember. Regardless of that, we do 
@@ -88,11 +88,12 @@ def runTask2():
     fig = plt.figure()
     max1 = max(vix['Adj Close'])
     vix_adj = vix['Adj Close']
-    plt.plot(vix_adj.idxmax(), max1, 'ro', label="Max Value")
+    plt.plot(vix_adj.idxmax(), max1, 'ko', label="Max Value")
+    print(max1)
     plt.title("Adjusted Close Price of VIX")
     plt.xlabel("Date")
     plt.ylabel("Index Price (in Dollars)")
-    plt.plot(vix['Adj Close'], 'green', label="Vix")
+    plt.plot(vix['Adj Close'], 'red', label="Vix")
     plt.legend()
     plt.show()
 
@@ -171,6 +172,14 @@ def runTask2():
 
     # Compare SPY Adj Close to average mortgage interest rates
     mortgageInterestRates()
+    plt.plot(spy["Adj Close"], 'g', label="SPY")
+    plt.title("Adjusted Close Price of SPY")
+    plt.xlabel("Date")
+    plt.ylabel("Price")
+    plt.legend()
+    plt.show()
+
+
 
 
 def mortgageInterestRates():
