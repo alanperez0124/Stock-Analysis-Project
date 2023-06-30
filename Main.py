@@ -12,29 +12,8 @@ import numpy as np
 
 
 def main():
-    # Select dates for stock exploration
-    start = datetime.datetime(2017, 1, 1)
-    end = datetime.datetime(2022, 1, 1)
-
-
-    # test()
     # Task 1: Examine relationship between vix volatility index and spy
     runTask2()
-    """
-    Here we see an interesting result. First of all, our data is severely skewed with most of it being clustered in the 
-    bottom left-hand corner. This is indicative of something, but I can't quite remember. Regardless of that, we do 
-    a very feint positive linear relationship. We see that as the price of VIX increases (that is, as the stock market 
-    gets more volatile, the number of shares traded increases.
-    """
-
-    # Ideas
-    """
-    - We can use the VIX to track volatility index and see how that relates to stock price performance
-    - We can track Treasury values and average mortgage inerest rates at Bankrate.com or HSN.com. 
-    - We can create heatmap showing correlation between interest rates and stock price performance. 
-    - Plot the moving average (popular on trading view and such)
-    
-    """
 
 
 def loadData(start, end, stock):
@@ -55,16 +34,6 @@ def getParameter(stock, parameter='Adj Close'):
     return truncated_stock_values
 
 
-def test():
-    prev = 1111
-    a = ["1111alan", "1112aldo", "1111aram", "1114adriel"]
-    for i, name in enumerate(a):
-        current = int(name[0:4])
-        if current >= int(prev):
-            prev = current
-            print(prev)
-
-
 def runTask2():
     """This method will run task 1. The ^VIX (CBOE Volatility Index) is a popular measure of the stock market's
     expectation of volatility based on the S&P 500 index options. In layman's terms, it is a fear index. """
@@ -78,10 +47,6 @@ def runTask2():
     vix = loadData(start, end, "^VIX")
 
     # Display information on spy and vix
-    # print("Info on vix: \n")
-    # print(vix.info())
-    # print("Info on spy: \n")
-    # print(spy.info())
     infoSeparator()
 
     # Plot graph of adjusted close price
@@ -89,21 +54,13 @@ def runTask2():
     max1 = max(vix['Adj Close'])
     vix_adj = vix['Adj Close']
     plt.plot(vix_adj.idxmax(), max1, 'ko', label="Max Value")
-    print(max1)
+    print("Max value was: ", max1)
     plt.title("Adjusted Close Price of VIX")
     plt.xlabel("Date")
     plt.ylabel("Index Price (in Dollars)")
     plt.plot(vix['Adj Close'], 'red', label="Vix")
     plt.legend()
     plt.show()
-
-    """
-    The VIX is a measure of implied volatility, based on the prices of a basket of S&P 500 Index options with 30 days
-    to expiration. By zooming into the graph, we see a huge spike around April of 2020. As many of you can guess or 
-    even remember, that was around the time the United States went awol: people were buying all the toilet paper they 
-    could find and the market was doing back-flips. Though, interestingly, we see that what happened at the beginning of 
-    2020 shies in comparison to what happened in 2008 during the Great Recession.
-    """
 
     infoSeparator()
 
@@ -119,15 +76,15 @@ def runTask2():
 
     infoSeparator()
 
-    # Plot the normalized adjusted close price of spy and vix
+    # Plot the scaled adjusted close price of spy and vix
     fig = plt.figure()
     vix_scaled = vix.apply(lambda x: x / x[0])
     spy_scaled = spy.apply(lambda x: x / x[0])
     plt.plot(vix_scaled['Adj Close'], 'r', label="VIX")
     plt.plot(spy_scaled['Adj Close'], 'g', label="SPY")
-    plt.title("Normalized Adjusted Close Price of VIX and SPY")
+    plt.title("Scaled Adjusted Close Price of VIX and SPY")
     plt.xlabel("Date")
-    plt.ylabel("Normalized Price")
+    plt.ylabel("Scaled Price")
     plt.legend()
     plt.show()
 
@@ -162,14 +119,6 @@ def runTask2():
     plt.title('VIX Adjusted Close vs SPY Volume')
     plt.show()
 
-    """Here we find some interesting results in our search for relationships between VIX and SPY. 
-       - The VIX adjusted close value is moderately correlated to the SPY Volume. This makes sense because as the market 
-           gets more volatile, more people jump and start buying OPTIONS.  
-       - The 
-       - 
-       -   
-    """
-
     # Compare SPY Adj Close to average mortgage interest rates
     mortgageInterestRates()
     plt.plot(spy["Adj Close"], 'g', label="SPY")
@@ -178,8 +127,6 @@ def runTask2():
     plt.ylabel("Price")
     plt.legend()
     plt.show()
-
-
 
 
 def mortgageInterestRates():
@@ -224,14 +171,6 @@ def mortgageInterestRates():
     plt.title("15- & 30-Year Fixed Rate Mortgage Average From 2000 to 2022")
     plt.legend()
     plt.show()
-
-    print("""
-    What we are witnessing is stagflation. Typically, when the country and economy are doing well, stocks tend to soar 
-    and so do mortgage rates. Even though these two charts together indicate that we are doing well, we must always 
-    consider other things likes unemployment and war and disease. 
-    """)
-
-
 
 
 if __name__ == "__main__":
